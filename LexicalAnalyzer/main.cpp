@@ -3,5 +3,6 @@
 using namespace std;
 
 int main() {
-	cout << "XD";
+	LexicalAnalyzer analyzer("sample.txt");
+	return 0;
 }

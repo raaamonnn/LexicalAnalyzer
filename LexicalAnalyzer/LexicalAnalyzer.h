@@ -1,13 +1,13 @@
 #pragma once
 #include <string>
-#include <vector>
+#include <map>
 #include <fstream>
+#include <iostream>
+#include <vector>
 using namespace std;
 
-struct Language {
-	string token;
-	string lexeme[];
-};
+typedef string Token;
+typedef string Lexeme;
 
 
 //TOKENS			Example Lexemes
@@ -25,16 +25,33 @@ struct Language {
 //Special Characters : the !(exclamation mark), the _(underscore) and the sp(space character)
 
 
+//there are more things like real and identifier which are numbers / variables
+
 //finish this
-const vector<Language> language = {
-	{"keyword"},  {{"while", "whileend"}},
-	{"seperator"},  {{"(", ")"} }
+//const vector<Language> language = {
+//	{"keyword"},  {{"while", "whileend"}},
+//	{"seperator"},  {{"(", ")"} }
+//};
+   
+const map<Token, Lexeme> language = {
+	{"while" , "Keyword"},
+	{"int" , "Keyword"},
+	{"whileend" , "Keyword"},
+	//...
+	//{"(" , "Seperator"}, -> too annoying to iterate to find if the character is a seperator
+	//{")" , "Seperator"},
+	//...
+	{"*" , "Operator"},
+	{"+" , "Operator"},
+	{"=" , "Operator"}
+	//...
 };
+
 
 class LexicalAnalyzer
 {
 private:
-	//we could have a a language vector here holding all the data from the textfile but if we just print it in the init we wont need it for now
+	map<Token, Lexeme> fileLanguage;
 public:
 	LexicalAnalyzer(string inputFile);
 };
