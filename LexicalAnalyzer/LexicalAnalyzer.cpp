@@ -38,7 +38,6 @@ void LexicalAnalyzer::ParseSub(string word, vector<pair<Token, Lexeme>>& subStri
 
 vector<pair<Token, Lexeme>> LexicalAnalyzer::GiveSub(string word)
 {
-	bool done = false;
 	vector<pair<Token, Lexeme>> subStrings;
 
 	for (int i = 0; i < word.length(); i++) {
@@ -59,7 +58,6 @@ vector<pair<Token, Lexeme>> LexicalAnalyzer::GiveSub(string word)
 
 			word.erase(0, i + 1);
 			i = -1;
-			done = true;
 			continue;
 		}
 
@@ -78,11 +76,10 @@ vector<pair<Token, Lexeme>> LexicalAnalyzer::GiveSub(string word)
 
 			word.erase(0, i + 1);
 			i = -1;
-			done = true;
 		}
 	}
 
-	if(!done)
+	if(!word.empty())
 		ParseSub(word, subStrings);
 
 	return subStrings;
