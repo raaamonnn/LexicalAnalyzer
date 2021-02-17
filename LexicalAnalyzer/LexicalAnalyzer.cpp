@@ -6,7 +6,7 @@ void PrintHelper(string type, T value)
 	cout << left << setw(12) << type << " = " << value << endl;
 }
 
-void LexicalAnalyzer::ParseSub(string word, vector<pair<Token, Lexeme>> subStrings)
+void LexicalAnalyzer::ParseSub(string word, vector<pair<Token, Lexeme>>& subStrings)
 {
 	auto itr = language.find(word);
 	if (itr != language.end()) {
@@ -38,6 +38,7 @@ void LexicalAnalyzer::ParseSub(string word, vector<pair<Token, Lexeme>> subStrin
 
 vector<pair<Token, Lexeme>> LexicalAnalyzer::GiveSub(string word)
 {
+	bool done = false;
 	vector<pair<Token, Lexeme>> subStrings;
 
 	for (int i = 0; i < word.length(); i++) {
@@ -58,6 +59,7 @@ vector<pair<Token, Lexeme>> LexicalAnalyzer::GiveSub(string word)
 
 			word.erase(0, i + 1);
 			i = -1;
+			done = true;
 			continue;
 		}
 
@@ -76,11 +78,12 @@ vector<pair<Token, Lexeme>> LexicalAnalyzer::GiveSub(string word)
 
 			word.erase(0, i + 1);
 			i = -1;
-			continue;
+			done = true;
 		}
-
-		ParseSub(word, subStrings);
 	}
+
+	if(!done)
+		ParseSub(word, subStrings);
 
 	return subStrings;
 }

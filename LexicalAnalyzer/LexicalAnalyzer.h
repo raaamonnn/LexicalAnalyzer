@@ -51,7 +51,7 @@ private:
 	map<Token, Lexeme> fileLanguage;
 
 	vector<pair<Token, Lexeme>> GiveSub(string word);
-	void ParseSub(string word, vector<pair<Token, Lexeme>> subStrings);
+	void ParseSub(string word, vector<pair<Token, Lexeme>>& subStrings);
 public:
 	LexicalAnalyzer(string inputFile);
 };
