@@ -3,6 +3,7 @@
 #include <map>
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 #include <vector>
 using namespace std;
 
@@ -36,14 +37,10 @@ typedef string Lexeme;
 const map<Token, Lexeme> language = {
 	{"while" , "Keyword"},
 	{"int" , "Keyword"},
-	{"whileend" , "Keyword"},
+	{"whileend" , "Keyword"}
 	//...
 	//{"(" , "Seperator"}, -> too annoying to iterate to find if the character is a seperator
 	//{")" , "Seperator"},
-	//...
-	{"*" , "Operator"},
-	{"+" , "Operator"},
-	{"=" , "Operator"}
 	//...
 };
 
@@ -52,6 +49,9 @@ class LexicalAnalyzer
 {
 private:
 	map<Token, Lexeme> fileLanguage;
+
+	vector<pair<Token, Lexeme>> GiveSub(string word);
+	void ParseSub(string word, vector<pair<Token, Lexeme>> subStrings);
 public:
 	LexicalAnalyzer(string inputFile);
 };
