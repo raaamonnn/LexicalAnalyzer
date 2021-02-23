@@ -1,16 +1,11 @@
 #pragma once
 #include <string>
-#include <map>
 #include <fstream>
 #include <iostream>
 #include <iomanip>
 #include <vector>
-using namespace std;
-
-typedef string Token;
-typedef string Lexeme;
-
-
+#include <unordered_map>
+#include <map>
 //TOKENS			Example Lexemes
 //
 //KEYWORDS = int, float, bool, True, False, if, else, then, endif, endelse, while, whileend, do, enddo, for, endfor, STDinput, STDoutput, and, or , not
@@ -34,6 +29,17 @@ typedef string Lexeme;
 //	{"seperator"},  {{"(", ")"} }
 //};
    
+using namespace std;
+
+typedef string Token;
+typedef string Lexeme;
+
+/*
+* keep a map of all keywords for fast searches.
+* 
+*  -Token is our key, -string
+*  -Lexeme is the type of Token, -string
+*/
 const map<Token, Lexeme> language = {
 	{"while" , "Keyword"},
 	{"int" , "Keyword"},
@@ -45,14 +51,29 @@ const map<Token, Lexeme> language = {
 };
 
 
+/*
+	Class - LexicalAnalyzer 
+*/
 class LexicalAnalyzer
 {
 private:
-	map<Token, Lexeme> fileLanguage;
+	//holds the file name that will be analyzed 
+	string fileName;
+	//keep an unordered map of our result 
+	unordered_map<Token, Lexeme> fileLanguage;
 
-	vector<pair<Token, Lexeme>> GiveSub(string word);
+	//separate operands and separators from strings
+	vector<pair<Token, Lexeme>> ParseWord(string word);
+	//Parse sub words and match the with the correct lexeme type. 
 	void ParseSub(string word, vector<pair<Token, Lexeme>>& subStrings);
 public:
+	//sets final name and constructs the class
 	LexicalAnalyzer(string inputFile);
+
+
+	//Main function to start analyzing the file
+	//	returns true if file successfully analyzed
+	// returns false if file name is not set
+	bool Analyze();
 };
 
