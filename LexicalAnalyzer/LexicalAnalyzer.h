@@ -5,7 +5,7 @@
 #include <iomanip>
 #include <vector>
 #include <unordered_map>
-#include <map>
+#include "FSM.h"
 //TOKENS			Example Lexemes
 //
 //KEYWORDS = int, float, bool, True, False, if, else, then, endif, endelse, while, whileend, do, enddo, for, endfor, STDinput, STDoutput, and, or , not
@@ -40,10 +40,12 @@ typedef string Lexeme;
 *  -Token is our key, -string
 *  -Lexeme is the type of Token, -string
 */
-const map<Token, Lexeme> language = {
+const unordered_map<Token, Lexeme> language = {
 	{"while" , "Keyword"},
 	{"int" , "Keyword"},
-	{"whileend" , "Keyword"}
+	{"whileend" , "Keyword"},
+	{"if", "Keyword"},
+	{"else", "Keyword"}
 	//...
 	//{"(" , "Seperator"}, -> too annoying to iterate to find if the character is a seperator
 	//{")" , "Seperator"},
@@ -60,18 +62,31 @@ const map<Token, Lexeme> language = {
 	are read in.
 	
 */
-class LexicalAnalyzer
+class LexicalAnalyzer : public FSM
 {
 private:
 	//holds the file name that will be analyzed 
 	string fileName;
+	string currentWord;
+	int i;
+
+	vector<pair<Token, Lexeme>> subStrings;
 	//keep an unordered map of our result 
 	unordered_map<Token, Lexeme> fileLanguage;
 
 	//separate operands and separators from strings
-	vector<pair<Token, Lexeme>> ParseWord(string word);
+	vector<pair<Token, Lexeme>> ParseWord();
 	//Parse sub words and match the with the correct lexeme type. 
 	void ParseSub(string word, vector<pair<Token, Lexeme>>& subStrings);
+
+	bool TriggerEvent();
+
+	bool GetSeprator();
+	bool GetOperator();
+	void GetKeyword(string word, std::list<pair<const Token, Lexeme>,
+		std::allocator<pair<const Token, Lexeme>>>::const_iterator itr, int state = 3);
+	void GetIdentifies(string word, vector<pair<Token, Lexeme>>& subStrings, int state = 4);
+
 public:
 	//sets final name and constructs the class
 	LexicalAnalyzer(string inputFile);
