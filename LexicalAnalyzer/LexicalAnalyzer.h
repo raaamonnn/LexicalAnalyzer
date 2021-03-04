@@ -53,6 +53,12 @@ const map<Token, Lexeme> language = {
 
 /*
 	Class - LexicalAnalyzer 
+	Function: This class will read through a file and will parse any tokens it comes accross.
+	Tokens found will be correctly identified as either keyword, operator, separator, or identifier
+	The tokens will be outputted into a file with two columns, one which identifies the token type
+	and another that contains the lexeme. The tokens will be printed in the same order that they 
+	are read in.
+	
 */
 class LexicalAnalyzer
 {
