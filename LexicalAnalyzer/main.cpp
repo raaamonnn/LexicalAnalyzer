@@ -13,7 +13,11 @@ using namespace std;
 		return -1 if analyzer fails!
 */
 int main() {
-	LexicalAnalyzer analyzer("sample.txt");
+	string name;
+	cout << "Enter file name to be analyzed(Example sample.txt): ";
+	getline(std::cin, name);
+
+	LexicalAnalyzer analyzer(name);
 
 	if (!analyzer.Analyze())
 	{

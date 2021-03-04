@@ -74,6 +74,8 @@ vector<pair<Token, Lexeme>> LexicalAnalyzer::ParseWord(string word)
 
 			word.erase(0, i + 1);
 			i = -1;
+
+			//continue to next word
 			continue;
 		}
 
