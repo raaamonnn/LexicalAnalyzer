@@ -12,11 +12,6 @@ protected:
 		state = newState;
 	}
 
-	int GetCurrentState()
-	{
-		return currentState;
-	}
-
 	int GetNextState()
 	{
 		currentState++;
