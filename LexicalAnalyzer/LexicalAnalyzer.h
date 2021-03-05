@@ -75,13 +75,13 @@ private:
 	unordered_map<Token, Lexeme> fileLanguage;
 
 	//separate operands and separators from strings
-	vector<pair<Token, Lexeme>> ParseWord();
+	vector<pair<Token, Lexeme>> Lexer();
 	//Parse sub words and match the with the correct lexeme type. 
 	void ParseSub(string word, vector<pair<Token, Lexeme>>& subStrings);
 
 	bool TriggerEvent();
 
-	bool GetSeprator();
+	bool GetSeparator();
 	bool GetOperator();
 	void GetKeyword(string word, std::list<pair<const Token, Lexeme>,
 		std::allocator<pair<const Token, Lexeme>>>::const_iterator itr, int state = 3);

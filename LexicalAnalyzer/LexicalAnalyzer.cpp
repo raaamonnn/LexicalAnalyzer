@@ -24,9 +24,9 @@ void LexicalAnalyzer::GetIdentifies(string word, vector<pair<Token, Lexeme>>& su
 	if (word.find('.') < word.length()) {
 		//if word contains a period then it is float
 		// printed and inserted into our map and vector
-		PrintHelper("Float", word);
-		fileLanguage.insert(pair<Token, Lexeme>("Float", word));
-		subStrings.push_back(pair<Token, Lexeme>("Float", word));
+		PrintHelper("Real", word);
+		fileLanguage.insert(pair<Token, Lexeme>("Real", word));
+		subStrings.push_back(pair<Token, Lexeme>("Real", word));
 
 	}
 	else if (!word.empty() && std::find_if(word.begin(), word.end(), [](unsigned char c) { return !std::isdigit(c); }) == word.end()) {
@@ -62,7 +62,7 @@ void LexicalAnalyzer::ParseSub(string word, vector<pair<Token, Lexeme>>& subStri
 	}
 }
 
-bool LexicalAnalyzer::GetSeprator()
+bool LexicalAnalyzer::GetSeparator()
 {
 	if (currentWord[i] == '(' || currentWord[i] == ')' || currentWord[i] == '{'
 		|| currentWord[i] == '}' || currentWord[i] == '[' || currentWord[i] == ']'
@@ -130,7 +130,7 @@ bool LexicalAnalyzer::TriggerEvent()
 		{
 		case 1:
 		{
-			auto stat = GetSeprator();
+			auto stat = GetSeparator();
 
 			if (stat)
 				return true;
@@ -151,7 +151,7 @@ bool LexicalAnalyzer::TriggerEvent()
 	return false;
 }
 
-vector<pair<Token, Lexeme>> LexicalAnalyzer::ParseWord()
+vector<pair<Token, Lexeme>> LexicalAnalyzer::Lexer()
 {
 	for (i = 0; i < currentWord.length(); i++) {
 		TriggerEvent();
@@ -196,7 +196,7 @@ bool LexicalAnalyzer::Analyze()
 			subStrings.clear();
 			this->currentWord = word;
 			//Parse each word using function ParseWord
-			auto sub = ParseWord();
+			auto sub = Lexer();
 		}
 	}
 
