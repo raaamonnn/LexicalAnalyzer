@@ -1,8 +1,12 @@
 #include <iostream>
 #include "LexicalAnalyzer.h"
+
 using namespace std;
 
-
+bool file_exists(const std::string& name) {
+	ifstream f(name.c_str());
+	return f.good();
+}
 /*
 	Main Function:
 		Construct analyzer class 
@@ -13,18 +17,29 @@ using namespace std;
 		return -1 if analyzer fails!
 */
 int main() {
-	string name;
+	string name = "Test.txt";
 	cout << "Enter file name to be analyzed(Example sample.txt): ";
-	getline(std::cin, name);
+	//getline(std::cin, name);
+
+	if (!file_exists(name)) {
+		cout << "File doesn't exist try again :( \n";
+		system("pause");
+		return -1;
+	}
 
 	LexicalAnalyzer analyzer(name);
 
 	if (!analyzer.Analyze())
 	{
 		cout << "Unable to analyze file!\n";
+		system("pause");
 		return -1;
 	}
 
 	cout << "Lexical Analyzer complete!\n";
+
+	analyzer.PrintLanguage();
+
+	system("pause");
 	return 0;
 }

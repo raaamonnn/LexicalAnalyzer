@@ -14,7 +14,7 @@ void LexicalAnalyzer::GetKeyword(string word, std::list<pair<const Token, Lexeme
 	// printed and inserted into our map and vector
 	PrintHelper(itr->second, itr->first);
 	subStrings.push_back(pair<Token, Lexeme>(itr->second, word));
-	fileLanguage.insert(pair<Token, Lexeme>(itr->first, itr->second));
+	fileLanguage.push_back(pair<Token, Lexeme>(itr->second, itr->first));
 
 	FSM::SetCurrentState(state);
 }
@@ -25,7 +25,7 @@ void LexicalAnalyzer::GetIdentifies(string word, vector<pair<Token, Lexeme>>& su
 		//if word contains a period then it is float
 		// printed and inserted into our map and vector
 		PrintHelper("Real", word);
-		fileLanguage.insert(pair<Token, Lexeme>("Real", word));
+		fileLanguage.push_back(pair<Token, Lexeme>("Real", word));
 		subStrings.push_back(pair<Token, Lexeme>("Real", word));
 
 	}
@@ -33,7 +33,7 @@ void LexicalAnalyzer::GetIdentifies(string word, vector<pair<Token, Lexeme>>& su
 		//word is an int 
 		// printed and inserted into our map and vector
 		PrintHelper("Integer", word);
-		fileLanguage.insert(pair<Token, Lexeme>("Integer", word));
+		fileLanguage.push_back(pair<Token, Lexeme>("Integer", word));
 		subStrings.push_back(pair<Token, Lexeme>("Integer", word));
 
 	}
@@ -41,7 +41,7 @@ void LexicalAnalyzer::GetIdentifies(string word, vector<pair<Token, Lexeme>>& su
 		//word is an Identifies 
 		// printed and inserted into our mpa and vector
 		PrintHelper("Identifier", word);
-		fileLanguage.insert(pair<Token, Lexeme>("Identifier", word));
+		fileLanguage.push_back(pair<Token, Lexeme>("Identifier", word));
 		subStrings.push_back(pair<Token, Lexeme>("Identifier", word));
 	}
 
@@ -82,6 +82,7 @@ bool LexicalAnalyzer::GetSeparator()
 		subStrings.push_back(pair<Token, Lexeme>("Separator", string(1, currentWord[i])));
 		//print seperator
 		PrintHelper("Separator", string(1, currentWord[i]));
+		fileLanguage.push_back(pair<Token, Lexeme>("Separator", string(1, currentWord[i])));
 
 		currentWord.erase(0, i + 1);
 		i = -1;
@@ -108,6 +109,7 @@ bool LexicalAnalyzer::GetOperator()
 
 		//insert seperator in a vector
 		subStrings.push_back(pair<Token, Lexeme>("Operator", string(1, currentWord[i])));
+		fileLanguage.push_back(pair<Token, Lexeme>("Operator", string(1, currentWord[i])));
 		//print seperator
 		PrintHelper("Operator", string(1, currentWord[i]));
 
@@ -203,6 +205,13 @@ bool LexicalAnalyzer::Analyze()
 	file.close();
 
 	return true;
+}
+
+void LexicalAnalyzer::PrintLanguage()
+{
+	for (auto test : fileLanguage) {
+		PrintHelper(test.first, test.second);
+	}
 }
 
 LexicalAnalyzer::LexicalAnalyzer(string inputFile) : FSM(2){

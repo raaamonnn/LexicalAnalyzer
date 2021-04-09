@@ -1,1 +1,3 @@
-while (fahr < upper) a = 23.00 whileend
+! Declare and assign a number !
+
+a = b + c;

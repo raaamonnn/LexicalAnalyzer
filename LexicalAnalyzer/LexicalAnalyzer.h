@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <vector>
 #include <unordered_map>
+#include <filesystem>
 #include "FSM.h"
 //TOKENS			Example Lexemes
 //
@@ -72,7 +73,7 @@ private:
 
 	vector<pair<Token, Lexeme>> subStrings;
 	//keep an unordered map of our result 
-	unordered_map<Token, Lexeme> fileLanguage;
+	vector<pair<Token, Lexeme>> fileLanguage;
 
 	//separate operands and separators from strings
 	vector<pair<Token, Lexeme>> Lexer();
@@ -91,7 +92,7 @@ public:
 	//sets final name and constructs the class
 	LexicalAnalyzer(string inputFile);
 
-
+	void PrintLanguage();
 	//Main function to start analyzing the file
 	//	returns true if file successfully analyzed
 	// returns false if file name is not set
