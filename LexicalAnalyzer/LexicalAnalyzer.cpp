@@ -11,10 +11,7 @@ void LexicalAnalyzer::GetKeyword(string word, std::list<pair<const Token, Lexeme
 	std::allocator<pair<const Token, Lexeme>>>::const_iterator itr, int state)
 {
 	//word is a keyword 
-	// printed and inserted into our map and vector
-	PrintHelper(itr->second, itr->first);
 	subStrings.push_back(pair<Token, Lexeme>(itr->second, word));
-	fileLanguage.push_back(pair<Token, Lexeme>(itr->second, itr->first));
 
 	FSM::SetCurrentState(state);
 }
@@ -23,25 +20,16 @@ void LexicalAnalyzer::GetIdentifies(string word, vector<pair<Token, Lexeme>>& su
 {
 	if (word.find('.') < word.length()) {
 		//if word contains a period then it is float
-		// printed and inserted into our map and vector
-		PrintHelper("Real", word);
-		fileLanguage.push_back(pair<Token, Lexeme>("Real", word));
 		subStrings.push_back(pair<Token, Lexeme>("Real", word));
 
 	}
 	else if (!word.empty() && std::find_if(word.begin(), word.end(), [](unsigned char c) { return !std::isdigit(c); }) == word.end()) {
 		//word is an int 
-		// printed and inserted into our map and vector
-		PrintHelper("Integer", word);
-		fileLanguage.push_back(pair<Token, Lexeme>("Integer", word));
 		subStrings.push_back(pair<Token, Lexeme>("Integer", word));
 
 	}
 	else if (word != "") {
 		//word is an Identifies 
-		// printed and inserted into our mpa and vector
-		PrintHelper("Identifier", word);
-		fileLanguage.push_back(pair<Token, Lexeme>("Identifier", word));
 		subStrings.push_back(pair<Token, Lexeme>("Identifier", word));
 	}
 
@@ -80,9 +68,6 @@ bool LexicalAnalyzer::GetSeparator()
 
 		//insert seperator in a vector
 		subStrings.push_back(pair<Token, Lexeme>("Separator", string(1, currentWord[i])));
-		//print seperator
-		PrintHelper("Separator", string(1, currentWord[i]));
-		fileLanguage.push_back(pair<Token, Lexeme>("Separator", string(1, currentWord[i])));
 
 		currentWord.erase(0, i + 1);
 		i = -1;
@@ -109,9 +94,6 @@ bool LexicalAnalyzer::GetOperator()
 
 		//insert seperator in a vector
 		subStrings.push_back(pair<Token, Lexeme>("Operator", string(1, currentWord[i])));
-		fileLanguage.push_back(pair<Token, Lexeme>("Operator", string(1, currentWord[i])));
-		//print seperator
-		PrintHelper("Operator", string(1, currentWord[i]));
 
 		currentWord.erase(0, i + 1);
 		i = -1;
@@ -167,6 +149,14 @@ vector<pair<Token, Lexeme>> LexicalAnalyzer::Lexer()
 	return subStrings;
 }
 
+void LexicalAnalyzer::ParseSyntax()
+{
+	for (auto token : fileLanguage)
+	{
+		
+	}
+}
+
 bool LexicalAnalyzer::Analyze()
 {
 	if (this->fileName.empty()) return false;
@@ -198,7 +188,12 @@ bool LexicalAnalyzer::Analyze()
 			subStrings.clear();
 			this->currentWord = word;
 			//Parse each word using function ParseWord
-			auto sub = Lexer();
+			auto subs = Lexer();
+			for (auto sub : subs)
+			{
+				fileLanguage.push_back({ sub.first, sub.second });
+				PrintHelper(sub.first, sub.second);
+			}
 		}
 	}
 
