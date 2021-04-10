@@ -88,6 +88,9 @@ private:
 		std::allocator<pair<const Token, Lexeme>>>::const_iterator itr, int state = 3);
 	void GetIdentifies(string word, vector<pair<Token, Lexeme>>& subStrings, int state = 4);
 
+
+	void ParseSyntax();
+
 public:
 	//sets final name and constructs the class
 	LexicalAnalyzer(string inputFile);

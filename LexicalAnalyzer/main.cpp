@@ -38,7 +38,7 @@ int main() {
 
 	cout << "Lexical Analyzer complete!\n";
 
-	analyzer.PrintLanguage();
+	//analyzer.PrintLanguage();
 
 	system("pause");
 	return 0;
