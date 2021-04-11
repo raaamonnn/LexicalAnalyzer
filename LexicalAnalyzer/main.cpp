@@ -1,6 +1,6 @@
 #include <iostream>
 #include "LexicalAnalyzer.h"
-
+#include "SyntaxAnalyzer.h"
 using namespace std;
 
 bool file_exists(const std::string& name) {
@@ -27,9 +27,9 @@ int main() {
 		return -1;
 	}
 
-	LexicalAnalyzer analyzer(name);
+	LexicalAnalyzer lAnalyzer(name);
 
-	if (!analyzer.Analyze())
+	if (!lAnalyzer.Analyze())
 	{
 		cout << "Unable to analyze file!\n";
 		system("pause");
@@ -37,7 +37,8 @@ int main() {
 	}
 
 	cout << "Lexical Analyzer complete!\n";
-
+	auto a = lAnalyzer.GetResult();
+	SyntaxAnalyzer sAnalyzer(a);
 	//analyzer.PrintLanguage();
 
 	system("pause");

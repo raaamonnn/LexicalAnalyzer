@@ -142,10 +142,12 @@
   <ItemGroup>
     <ClCompile Include="LexicalAnalyzer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SyntaxAnalyzer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FSM.h" />
     <ClInclude Include="LexicalAnalyzer.h" />
+    <ClInclude Include="SyntaxAnalyzer.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="simple.txt" />

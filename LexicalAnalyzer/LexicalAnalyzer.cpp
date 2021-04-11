@@ -1,12 +1,5 @@
 #include "LexicalAnalyzer.h"
 
-template <class T>
-void PrintHelper(string type, T value)
-{
-	//print function to format results
-	cout << left << setw(12) << type << " = " << value << endl;
-}
-
 void LexicalAnalyzer::GetKeyword(string word, std::list<pair<const Token, Lexeme>,
 	std::allocator<pair<const Token, Lexeme>>>::const_iterator itr, int state)
 {

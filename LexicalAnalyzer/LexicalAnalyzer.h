@@ -1,12 +1,10 @@
 #pragma once
-#include <string>
 #include <fstream>
-#include <iostream>
-#include <iomanip>
 #include <vector>
 #include <unordered_map>
 #include <filesystem>
 #include "FSM.h"
+#include "common.h"
 //TOKENS			Example Lexemes
 //
 //KEYWORDS = int, float, bool, True, False, if, else, then, endif, endelse, while, whileend, do, enddo, for, endfor, STDinput, STDoutput, and, or , not
@@ -100,5 +98,9 @@ public:
 	//	returns true if file successfully analyzed
 	// returns false if file name is not set
 	bool Analyze();
+
+	vector<pair<Token, Lexeme>> GetResult() {
+		return fileLanguage;
+	}
 };
 
