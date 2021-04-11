@@ -1,0 +1,44 @@
+Lexical Analyzer Results!
+Identifier   = a
+Operator     = =
+Identifier   = b
+Operator     = +
+Identifier   = c
+Separator    = ;
+=========End=========
+Lexical Analyzer complete!
+
+TOKEN -> Identifier
+LEXEME -> a
+-------------------
+<Assign> -> <Identifier> = <Expression>
+
+TOKEN -> Operator
+LEXEME -> =
+-------------------
+
+TOKEN -> Identifier
+LEXEME -> b
+-------------------
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> ->  <Primary>
+<Primary> -> <Identifier>
+
+TOKEN -> Operator
+LEXEME -> +
+-------------------
+<Expression Prime> + <Term> <Expression Prime>
+
+TOKEN -> Identifier
+LEXEME -> c
+-------------------
+<Term> -> <Factor> <Term Prime>
+<Factor> ->  <Primary>
+<Primary> -> <Identifier>
+
+TOKEN -> Separator
+LEXEME -> ;
+-------------------
+<Expression Prime> -> <Empty>
+<Empty> -> Epsilon

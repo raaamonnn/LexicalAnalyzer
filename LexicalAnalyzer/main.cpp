@@ -3,6 +3,8 @@
 #include "SyntaxAnalyzer.h"
 using namespace std;
 
+ofstream myfile;
+
 bool file_exists(const std::string& name) {
 	ifstream f(name.c_str());
 	return f.good();
@@ -17,12 +19,13 @@ bool file_exists(const std::string& name) {
 		return -1 if analyzer fails!
 */
 int main() {
-	string name = "Test.txt";
-	cout << "Enter file name to be analyzed(Example sample.txt): ";
-	//getline(std::cin, name);
+	myfile.open("output.txt");
+	string name;
+	printf("Enter file name to be analyzed(Example sample.txt): ");
+	getline(std::cin, name);
 
 	if (!file_exists(name)) {
-		cout << "File doesn't exist try again :( \n";
+		printf("File doesn't exist try again :( \n");
 		system("pause");
 		return -1;
 	}
@@ -31,16 +34,19 @@ int main() {
 
 	if (!lAnalyzer.Analyze())
 	{
-		cout << "Unable to analyze file!\n";
+		printf("Unable to analyze file!\n");
 		system("pause");
 		return -1;
 	}
 
-	cout << "Lexical Analyzer complete!\n";
+	lAnalyzer.PrintLanguage();
+	Log("Lexical Analyzer result passed to Syntanx...\n");
+
 	auto a = lAnalyzer.GetResult();
 	SyntaxAnalyzer sAnalyzer(a);
 	//analyzer.PrintLanguage();
 
+	myfile.close();
 	system("pause");
 	return 0;
 }

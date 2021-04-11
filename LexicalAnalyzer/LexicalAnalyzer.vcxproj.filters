@@ -35,6 +35,9 @@
     <ClInclude Include="SyntaxAnalyzer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="simple.txt">

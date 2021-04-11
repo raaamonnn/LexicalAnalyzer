@@ -197,9 +197,11 @@ bool LexicalAnalyzer::Analyze()
 
 void LexicalAnalyzer::PrintLanguage()
 {
+	Log("Lexical Analyzer Results!\n");
 	for (auto test : fileLanguage) {
 		PrintHelper(test.first, test.second);
 	}
+	Log("=========End=========\n");
 }
 
 LexicalAnalyzer::LexicalAnalyzer(string inputFile) : FSM(2){
