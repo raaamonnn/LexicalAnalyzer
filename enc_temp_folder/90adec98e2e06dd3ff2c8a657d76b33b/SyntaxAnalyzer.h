@@ -73,6 +73,7 @@ private:
 
 	bool ExpressionPrime() {
 		if (GetToken() == "+") {
+			cout << "XXDDDDDD";
 			PrintLexerResult();
 			NextInput();
 			printf("<Expression Prime> + <Term> <Expression Prime>\n");

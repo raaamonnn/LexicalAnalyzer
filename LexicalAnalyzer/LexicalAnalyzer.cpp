@@ -157,7 +157,7 @@ bool LexicalAnalyzer::Analyze()
 	ifstream file(this->fileName);
 	string word = "";
 
-	cout << "TOKEN    --    LEXEME\n";
+	//cout << "TOKEN    --    LEXEME\n";
 
 	bool isComment = false;
 	while (!file.eof()) {
@@ -185,7 +185,7 @@ bool LexicalAnalyzer::Analyze()
 			for (auto sub : subs)
 			{
 				fileLanguage.push_back({ sub.first, sub.second });
-				PrintHelper(sub.first, sub.second);
+				//PrintHelper(sub.first, sub.second);
 			}
 		}
 	}
