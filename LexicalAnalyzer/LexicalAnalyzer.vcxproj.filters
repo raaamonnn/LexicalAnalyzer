@@ -43,9 +43,6 @@
     <Text Include="simple.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="sample.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
     <Text Include="Test.txt">
       <Filter>Resource Files</Filter>
     </Text>

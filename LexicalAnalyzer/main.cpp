@@ -19,24 +19,38 @@ bool file_exists(const std::string& name) {
 		return -1 if analyzer fails!
 */
 int main() {
-	myfile.open("output.txt");
+	string outName;
 	string name;
 	printf("Enter file name to be analyzed(Example sample.txt): ");
 	getline(std::cin, name);
 
 	if (!file_exists(name)) {
 		printf("File doesn't exist try again :( \n");
-		system("pause");
-		return -1;
+		printf("Press Enter to close...\n");
+		getchar();
+		return 0;
 	}
+
+	printf("Enter file output file name: ");
+	getline(std::cin, outName);
+
+	if (outName.empty() || outName == "" || outName == "\n") {
+		printf("output file name missing! :( \n");
+		printf("Press Enter to close...\n");
+		getchar();
+		return 0;
+	}
+	myfile.open(outName);
 
 	LexicalAnalyzer lAnalyzer(name);
 
 	if (!lAnalyzer.Analyze())
 	{
 		printf("Unable to analyze file!\n");
-		system("pause");
-		return -1;
+		printf("Press Enter to close...\n");
+		myfile.close();
+		getchar();
+		return 0;
 	}
 
 	lAnalyzer.PrintLanguage();
@@ -47,6 +61,8 @@ int main() {
 	//analyzer.PrintLanguage();
 
 	myfile.close();
-	system("pause");
+
+	printf("Press Enter to close...\n");
+	getchar();
 	return 0;
 }
