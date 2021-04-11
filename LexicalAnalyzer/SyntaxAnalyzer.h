@@ -28,10 +28,12 @@ private:
 
 	void NextInput() {
 		//cout << "NEXT INPUT CALLED\n PAIR TOKEN ->" << synInput.front().first << endl;
-		pairInput = synInput.front();
-		//cout << synInput.front().second;
-		synInput.erase(synInput.begin());
-		//cout << synInput.front().second;
+		if (!synInput.empty()) {
+			pairInput = synInput.front();
+			//cout << synInput.front().second;
+			synInput.erase(synInput.begin());
+			//cout << synInput.front().second;
+		}
 	}
 
 	void PrintLexerResult() {
@@ -72,10 +74,11 @@ private:
 	}
 
 	bool ExpressionPrime() {
-		if (GetToken() == "+") {
+		if (GetLexeme() == "+") {
 			PrintLexerResult();
 			NextInput();
 			printf("<Expression Prime> + <Term> <Expression Prime>\n");
+			PrintLexerResult();
 			if (Term()) {
 				if (ExpressionPrime()) {
 					return true;
@@ -91,10 +94,11 @@ private:
 			}
 		}
 
-		else if (GetToken() == "-") {
+		else if (GetLexeme() == "-") {
 			PrintLexerResult();
 			NextInput();
 			printf("<Expression Prime> - <Term> <Expression Prime>\n");
+			PrintLexerResult();
 			if (Term()) {
 				if (ExpressionPrime()) {
 					return true;
@@ -114,7 +118,6 @@ private:
 	}
 
 	bool Factor() {
-		cout << "FACTOR GETS CALLED\n";
 		if (GetLexeme() == "-") //For negative  factors
 		{
 			PrintLexerResult();
@@ -138,11 +141,11 @@ private:
 	}
 
 	bool TermPrime() {
-		if (GetToken() == "*") {
+		if (GetLexeme() == "*") {
 			PrintLexerResult();
 			NextInput();
 			printf("<Term Prime -> * <Term> <Term Prime>\n");
-
+			PrintLexerResult();
 			if (Term()) {
 				if (TermPrime()) {
 					return true;
@@ -161,7 +164,7 @@ private:
 			PrintLexerResult();
 			NextInput();
 			printf("<Term Prime -> / <Term> <Term Prime>\n");
-
+			PrintLexerResult();
 			if (Term()) {
 				if (TermPrime()) {
 					return true;
@@ -210,6 +213,7 @@ private:
 
 		if (GetToken() == "Identifier") {
 			if (PeekLexeme() == "(") { 
+				
 				NextInput();
 				PrintLexerResult();
 				if (Ids()) {
@@ -241,7 +245,7 @@ private:
 			return true;
 		}
 		else if (GetLexeme() == "(") {
-			PrintLexerResult();
+			//PrintLexerResult();
 			NextInput();
 			if (Expression()) {
 				if (GetLexeme() == ")") {
@@ -276,9 +280,10 @@ private:
 	}
 
 	bool Assign() {
-		if (GetToken() == "Identifier") {
-			printf("<Assign> -> <Identifier> = <Expression>\n");
+		if (GetToken() == "Identifier") { 
 			PrintLexerResult();
+			printf("<Assign> -> <Identifier> = <Expression>\n");
+			
 			NextInput();
 			if (GetLexeme() == "=") {
 				PrintLexerResult();
@@ -286,6 +291,8 @@ private:
 				if (Expression()) {
 					if (GetLexeme() == ";") {
 						PrintLexerResult();
+						printf("<Expression Prime> -> <Empty>\n");
+						printf("<Empty> -> Epsilon\n");
 						NextInput();
 						return true;
 					}
@@ -308,12 +315,95 @@ private:
 		return false;
 	}
 
+	vector<string> declareKeywords = { "int", "bool", "float", "double", "string" };
+
+	bool Declaration() {
+		if (count(declareKeywords.begin(), declareKeywords.end(), GetLexeme())) {
+			PrintLexerResult();
+			printf("<Statement> -> <Declarative>\n");
+			if (Type()) {
+				NextInput();
+				PrintLexerResult();
+				cout << "<ID> -> " << GetLexeme() << endl;
+				return true;
+			}
+			return false;
+		} 
+		else {
+			return false;
+		}
+	}
+
+	bool Type() {
+			cout << "<Type> -> " << GetLexeme() << endl;
+			return true;
+	}
+
+	bool If() {
+
+		if (GetLexeme() == "if") {
+			printf("<Statement> -> <If>\n");
+			printf("<If> -> if  ( <Condition>  ) <Statement>   endif |\n if  ( <Condition>  ) <Statement>   else  <Statement>  endif\n");
+			PrintLexerResult();
+			NextInput();
+			if (GetLexeme() == "(") {
+				PrintLexerResult();
+				NextInput();
+				if (Conditional()) {
+					if (GetLexeme() == ")") {
+						PrintLexerResult();
+						NextInput();
+						if (Statement())
+					}
+				}
+			}
+		}
+
+	}
+
+	bool Conditional() {
+		printf("<Condition> -> <Expression> <Relop> <Expression>\n");
+		if (Expression()) {
+			if (Relop()) {
+				if (Expression()) {
+					return true;
+				}
+				else {
+					printf("ERROR Expected -> EXPRESSION\n");
+					return false;
+				}
+			}
+			else {
+				printf("ERROR Expected -> RELOP\n");
+				return false;
+			}
+		}
+		else {
+			printf("ERROR Expected -> EXPRESSION\n");
+			return false;
+		}
+		return false;
+	}
+
+	bool Relop() {
+		printf("<Relop> -> == | ^= | > | < | => | =<\n");
+		PrintLexerResult();
+		NextInput();
+		return true;
+	}
 
 public:
 	SyntaxAnalyzer(vector<pair<Token, Lexeme>> &lexResult) {
 		synInput = lexResult;
 
 		NextInput(); //sets the first pair
-		Assign();
+		if (Assign()) {
+			return;
+		}
+
+		if (Declaration()) {
+			return;
+		}
+
 	}
 };
