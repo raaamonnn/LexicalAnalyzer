@@ -121,7 +121,7 @@ private:
 	}
 
 	bool Factor() {
-		if (GetLexeme() == "-") //For negative  factors
+		if (GetLexeme() == "-")
 		{
 			PrintLexerResult();
 			Log("<Factor> -> - <Primary>\n");
@@ -150,7 +150,7 @@ private:
 			PrintLexerResult();
 			NextInput();
 			Log("<Term Prime -> * <Term> <Term Prime>\n");
-			PrintLexerResult();
+			PrintLexerResult(); //??????
 			if (Term()) {
 				if (TermPrime()) {
 					return true;
@@ -169,7 +169,7 @@ private:
 			PrintLexerResult();
 			NextInput();
 			Log("<Term Prime -> / <Term> <Term Prime>\n");
-			PrintLexerResult();
+			PrintLexerResult(); //??????
 			if (Term()) {
 				if (TermPrime()) {
 					return true;
@@ -360,12 +360,98 @@ private:
 					if (GetLexeme() == ")") {
 						PrintLexerResult();
 						NextInput();
-						//if (Statement())
+						if (Statement()) {
+							NextInput();
+							if (GetLexeme() == "endif") {
+								PrintLexerResult();
+								NextInput();
+								return true;
+							}
+							else if (GetLexeme() == "else") {
+								PrintLexerResult();
+								NextInput();
+								if (Statement()) {
+									NextInput();
+									if (GetLexeme() == "endif") {
+										PrintLexerResult();
+										NextInput();
+										return true;
+									}
+									else {
+										Log("ERROR Expected -> ENDIF\n");
+										return false;
+									}
+								}
+								else {
+									Log("ERROR Expected -> STATEMENT\n");
+									return false;
+								}
+							}
+							else {
+								Log("ERROR Expected -> ELSE / ENDIF\n");
+								return false;
+							}
+						}
+						else {
+							Log("ERROR Expected -> STATEMENT\n");
+							return false;
+						}
+					}
+					else {
+						Log("ERROR Expected -> )\n");
+						return false;
 					}
 				}
+				else {
+					Log("ERROR Expected -> CONDITIONAL\n");
+					return false;
+				}
+			}
+			else {
+				Log("ERROR Expected -> (\n");
+				return false;
 			}
 		}
+		return false;
+	}
 
+	bool While() {
+		if (GetLexeme() == "while") {
+			PrintLexerResult();
+			Log("<Statement> -> <While>\n");
+			Log("<While> -> ( <Condition>  )  <Statement>\n");
+			NextInput();
+
+			if (GetLexeme() == "(") {
+				NextInput();
+				if (Conditional()) {
+					if (GetLexeme() == ")") {
+						PrintLexerResult();
+						NextInput();
+						if (Statement()) {
+							return true;
+						}
+						else {
+							Log("ERROR Expected -> STATEMENT\n");
+							return false;
+						}
+					}
+					else {
+						Log("ERROR Expected -> )\n");
+						return false;
+					}
+				}
+				else {
+					Log("ERROR Expected -> CONDITIONAL\n");
+					return false;
+				}
+			}
+			else {
+				Log("ERROR Expected -> (\n");
+				return false;
+			}
+		}
+		return false;
 	}
 
 	bool Conditional() {
@@ -399,18 +485,34 @@ private:
 		return true;
 	}
 
+	bool Statement() {
+		if (Assign()) {
+			return true;
+		}
+
+		if (Declaration()) {
+			return true;
+		}
+
+		if (If()) {
+			return true;
+		}
+
+		if (While()) {
+			return true;
+		}
+
+		return false;
+	}
+
 public:
 	SyntaxAnalyzer(vector<pair<Token, Lexeme>> &lexResult) {
 		synInput = lexResult;
 		NextInput(); //sets the first pair
-		if (Assign()) {
+
+		if (Statement()) {
 			return;
 		}
-
-		if (Declaration()) {
-			return;
-		}
-
 	}
 
 	~SyntaxAnalyzer()
