@@ -193,6 +193,8 @@ private:
 		if (PeekLexeme() == "(") {
 			PrintLexerResult();
 			NextInput();
+			PrintLexerResult();
+			NextInput();
 			if (Ids()) {
 				PrintLexerResult();
 				return true;
