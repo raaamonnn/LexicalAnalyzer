@@ -18,7 +18,6 @@ private:
 	}
 
 	Lexeme GetLexeme() {
-		//cout << "\nGETLEXEME -> " << pairInput.second << endl;
 		return pairInput.second;
 	}
 
@@ -27,12 +26,9 @@ private:
 	}
 
 	void NextInput() {
-		//cout << "NEXT INPUT CALLED\n PAIR TOKEN ->" << synInput.front().first << endl;
 		if (!synInput.empty()) {
 			pairInput = synInput.front();
-			//cout << synInput.front().second;
 			synInput.erase(synInput.begin());
-			//cout << synInput.front().second;
 		}
 	}
 
@@ -150,7 +146,7 @@ private:
 			PrintLexerResult();
 			NextInput();
 			Log("<Term Prime -> * <Term> <Term Prime>\n");
-			PrintLexerResult(); //??????
+			PrintLexerResult();
 			if (Term()) {
 				if (TermPrime()) {
 					return true;
@@ -169,7 +165,7 @@ private:
 			PrintLexerResult();
 			NextInput();
 			Log("<Term Prime -> / <Term> <Term Prime>\n");
-			PrintLexerResult(); //??????
+			PrintLexerResult(); 
 			if (Term()) {
 				if (TermPrime()) {
 					return true;
@@ -250,7 +246,6 @@ private:
 			return true;
 		}
 		else if (GetLexeme() == "(") {
-			//PrintLexerResult();
 			NextInput();
 			if (Expression()) {
 				if (GetLexeme() == ")") {
@@ -287,6 +282,7 @@ private:
 	bool Assign() {
 		if (GetToken() == "Identifier") { 
 			PrintLexerResult();
+			Log("<Statement> -> <Compound> | <Assign> | <If> | <Return> | <Print> | <Scan> | <While>\n");
 			Log("<Assign> -> <Identifier> = <Expression>\n");
 			
 			NextInput();
@@ -365,6 +361,10 @@ private:
 							PrintLexerResult();
 							NextInput();
 						}
+						else {
+							Log("ERROR Expected -> {\n");
+							return false;
+						}
 
 						while (Statement()) {
 						}
@@ -377,58 +377,37 @@ private:
 							Log("ERROR Expected -> }\n");
 							return false;
 						}
-							//NextInput();
 
-							if (GetLexeme() == "endif") {
+						if (GetLexeme() == "endif") {
+							PrintLexerResult();
+							NextInput();
+							return true;
+						}
+						else if (GetLexeme() == "else") {
+							PrintLexerResult();
+							NextInput();
+
+							if (GetLexeme() == "{") {
 								PrintLexerResult();
 								NextInput();
-								return true;
 							}
-							else if (GetLexeme() == "else") {
-								PrintLexerResult();
-								NextInput();
-
-								if (GetLexeme() == "{") {
-									PrintLexerResult();
-									NextInput();
-								}
-
-								while (Statement()) {
-								}
-
-								if (GetLexeme() == "}") {
-									PrintLexerResult();
-									NextInput();
-								}
-
-		/*							NextInput();
-									if (GetLexeme() == "endif") {
-										PrintLexerResult();
-										NextInput();
-										return true;
-									}
-									else {
-										Log("ERROR Expected -> ENDIF\n");
-										return false;
-									}*/
-								
-					/*			else {
-									Log("ERROR Expected -> STATEMENT\n");
-									return false;
-								}*/
-							}
-	/*						else {
-								Log("ERROR Expected -> ELSE / ENDIF\n");
+							else {
+								Log("ERROR Expected -> {\n");
 								return false;
-							}*/
-						//}
+							}
 
-	
+							while (Statement()) {
+							}
 
-					/*	else {
-							Log("ERROR Expected -> STATEMENT\n");
-							return false;
-						}*/
+							if (GetLexeme() == "}") {
+								PrintLexerResult();
+								NextInput();
+							}
+							else {
+								Log("ERROR Expected -> }\n");
+								return false;
+							}
+						}
 					}
 					else {
 						Log("ERROR Expected -> )\n");
