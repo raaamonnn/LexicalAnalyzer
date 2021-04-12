@@ -1,2 +1,4 @@
+if (x > y) 
 a = b + c;
 b = c;
+c = a + b;

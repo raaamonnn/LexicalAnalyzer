@@ -361,18 +361,18 @@ private:
 						PrintLexerResult();
 						NextInput();
 
-						if (GetLexeme() == "{") {
+					/*	if (GetLexeme() == "{") {
 							PrintLexerResult();
 							NextInput();
-						}
+						}*/
 
 						while (Statement()) {
 							NextInput();
-							if (GetLexeme() == "}") {
+					/*		if (GetLexeme() == "}") {
 								PrintLexerResult();
 								NextInput();
 								return true;
-							}
+							}*/
 
 							if (GetLexeme() == "endif") {
 								PrintLexerResult();
@@ -401,15 +401,15 @@ private:
 							}
 							else {
 								Log("ERROR Expected -> ELSE / ENDIF\n");
-								return false;
+								//return false;
 							}
 						}
 
-						if (GetLexeme() == "}") {
+					/*	if (GetLexeme() == "}") {
 							PrintLexerResult();
 							NextInput();
 							return true;
-						}
+						}*/
 
 					/*	else {
 							Log("ERROR Expected -> STATEMENT\n");
