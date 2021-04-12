@@ -367,12 +367,14 @@ private:
 						}
 
 						while (Statement()) {
+						}
+
+						if (GetLexeme() == "}") {
+							PrintLexerResult();
 							NextInput();
-							if (GetLexeme() == "}") {
-								PrintLexerResult();
-								NextInput();
-								return true;
-							}
+						}
+
+							NextInput();
 
 							if (GetLexeme() == "endif") {
 								PrintLexerResult();
@@ -399,17 +401,13 @@ private:
 									return false;
 								}
 							}
-							else {
+	/*						else {
 								Log("ERROR Expected -> ELSE / ENDIF\n");
 								return false;
-							}
-						}
+							}*/
+						//}
 
-						if (GetLexeme() == "}") {
-							PrintLexerResult();
-							NextInput();
-							return true;
-						}
+	
 
 					/*	else {
 							Log("ERROR Expected -> STATEMENT\n");

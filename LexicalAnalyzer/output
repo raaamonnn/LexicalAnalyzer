@@ -22,6 +22,7 @@ Identifier   = a
 Operator     = +
 Identifier   = b
 Separator    = ;
+Identifier   = z
 Separator    = }
 =========End=========
 Lexical Analyzer result passed to Syntanx...
@@ -101,4 +102,71 @@ LEXEME -> ;
 -------------------
 <Expression Prime> -> <Empty>
 <Empty> -> Epsilon
-ERROR Expected -> ELSE / ENDIF
+
+TOKEN -> Identifier
+LEXEME -> b
+-------------------
+<Assign> -> <Identifier> = <Expression>
+
+TOKEN -> Operator
+LEXEME -> =
+-------------------
+
+TOKEN -> Identifier
+LEXEME -> c
+-------------------
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> ->  <Primary>
+<Primary> -> <Identifier>
+
+TOKEN -> Separator
+LEXEME -> ;
+-------------------
+<Expression Prime> -> <Empty>
+<Empty> -> Epsilon
+
+TOKEN -> Identifier
+LEXEME -> c
+-------------------
+<Assign> -> <Identifier> = <Expression>
+
+TOKEN -> Operator
+LEXEME -> =
+-------------------
+
+TOKEN -> Identifier
+LEXEME -> a
+-------------------
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> ->  <Primary>
+<Primary> -> <Identifier>
+
+TOKEN -> Operator
+LEXEME -> +
+-------------------
+<Expression Prime> + <Term> <Expression Prime>
+
+TOKEN -> Identifier
+LEXEME -> b
+-------------------
+<Term> -> <Factor> <Term Prime>
+<Factor> ->  <Primary>
+<Primary> -> <Identifier>
+
+TOKEN -> Separator
+LEXEME -> ;
+-------------------
+<Expression Prime> -> <Empty>
+<Empty> -> Epsilon
+
+TOKEN -> Identifier
+LEXEME -> z
+-------------------
+<Assign> -> <Identifier> = <Expression>
+ERROR Expected -> =
+
+TOKEN -> Separator
+LEXEME -> }
+-------------------
