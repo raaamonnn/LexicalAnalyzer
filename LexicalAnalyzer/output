@@ -22,7 +22,13 @@ Identifier   = a
 Operator     = +
 Identifier   = b
 Separator    = ;
-Identifier   = z
+Separator    = }
+Keyword      = else
+Separator    = {
+Identifier   = x
+Operator     = =
+Identifier   = a
+Separator    = ;
 Separator    = }
 =========End=========
 Lexical Analyzer result passed to Syntanx...
@@ -161,11 +167,40 @@ LEXEME -> ;
 <Expression Prime> -> <Empty>
 <Empty> -> Epsilon
 
+TOKEN -> Separator
+LEXEME -> }
+-------------------
+
+TOKEN -> Keyword
+LEXEME -> else
+-------------------
+
+TOKEN -> Separator
+LEXEME -> {
+-------------------
+
 TOKEN -> Identifier
-LEXEME -> z
+LEXEME -> x
 -------------------
 <Assign> -> <Identifier> = <Expression>
-ERROR Expected -> =
+
+TOKEN -> Operator
+LEXEME -> =
+-------------------
+
+TOKEN -> Identifier
+LEXEME -> a
+-------------------
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> ->  <Primary>
+<Primary> -> <Identifier>
+
+TOKEN -> Separator
+LEXEME -> ;
+-------------------
+<Expression Prime> -> <Empty>
+<Empty> -> Epsilon
 
 TOKEN -> Separator
 LEXEME -> }
