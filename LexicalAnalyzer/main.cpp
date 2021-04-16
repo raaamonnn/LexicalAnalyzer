@@ -11,10 +11,13 @@ bool file_exists(const std::string& name) {
 }
 /*
 	Main Function:
-		Construct analyzer class 
-			analyzer class calls analyze function to 
-			analyze text file. 
-	@return 
+		Construct analyzer class
+			analyzer class calls analyze function to
+			analyze text file.
+		Constuct Syntax analyzer class
+			this class constructor analyzes the
+			syntax and prints it to a file and CMD
+	@return
 		return 0 if analyzar is complete!
 		return -1 if analyzer fails!
 */
@@ -56,7 +59,15 @@ int main() {
 	lAnalyzer.PrintLanguage();
 	Log("Lexical Analyzer result passed to Syntanx...\n");
 
+	/*Vector<Token, Lexeme> is returned by GetResult:
+	*This is the result of the LexicalAnalyzer, which
+	*is a vector of Tokens from the given input file
+	*/
 	auto a = lAnalyzer.GetResult();
+
+	//Constructor of SyntaxAnalyzer: Analyzes the 
+	//tokens from the vector of tokens given 
+	//by the lexical analzyer
 	SyntaxAnalyzer sAnalyzer(a);
 	//analyzer.PrintLanguage();
 

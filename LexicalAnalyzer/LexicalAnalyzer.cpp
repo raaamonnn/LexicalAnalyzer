@@ -85,9 +85,25 @@ bool LexicalAnalyzer::GetOperator()
 			ParseSub(sub, subStrings);
 		}
 
-		//insert seperator in a vector
-		subStrings.push_back(pair<Token, Lexeme>("Operator", string(1, currentWord[i])));
-
+		if (currentWord[i] == '=' && currentWord[i + 1] == '=') {
+			subStrings.push_back(pair<Token, Lexeme>("Operator", "=="));
+			i++;
+		}
+		else if (currentWord[i] == '<' && currentWord[i+1] == '=')
+		{
+			subStrings.push_back(pair<Token, Lexeme>("Operator", "<="));
+			i++;
+		}
+		else if (currentWord[i] == '>' && currentWord[i+1] == '=')
+		{
+			subStrings.push_back(pair<Token, Lexeme>("Operator", ">="));
+			i++;
+		}
+		else
+		{
+			//insert seperator in a vector
+			subStrings.push_back(pair<Token, Lexeme>("Operator", string(1, currentWord[i])));
+		}
 		currentWord.erase(0, i + 1);
 		i = -1;
 		return true;

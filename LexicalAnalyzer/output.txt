@@ -1,0 +1,171 @@
+Lexical Analyzer Results!
+Identifier   = x
+Operator     = =
+Identifier   = a
+Operator     = +
+Identifier   = b
+Separator    = ;
+Identifier   = z
+Operator     = =
+Identifier   = c
+Operator     = +
+Identifier   = d
+Separator    = ;
+Identifier   = a
+Operator     = =
+Identifier   = e
+Operator     = -
+Identifier   = f
+Separator    = ;
+Identifier   = b
+Operator     = =
+Identifier   = g
+Operator     = *
+Identifier   = n
+Separator    = ;
+=========End=========
+Lexical Analyzer result passed to Syntanx...
+
+TOKEN -> Identifier
+LEXEME -> x
+-------------------
+<Statement> -> <Compound> | <Assign> | <If> | <Return> | <Print> | <Scan> | <While>
+<Assign> -> <Identifier> = <Expression>
+
+TOKEN -> Operator
+LEXEME -> =
+-------------------
+
+TOKEN -> Identifier
+LEXEME -> a
+-------------------
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> ->  <Primary>
+<Primary> -> <Identifier>
+
+TOKEN -> Operator
+LEXEME -> +
+-------------------
+<Expression Prime> + <Term> <Expression Prime>
+
+TOKEN -> Identifier
+LEXEME -> b
+-------------------
+<Term> -> <Factor> <Term Prime>
+<Factor> ->  <Primary>
+<Primary> -> <Identifier>
+
+TOKEN -> Separator
+LEXEME -> ;
+-------------------
+<Expression Prime> -> <Empty>
+<Empty> -> Epsilon
+
+TOKEN -> Identifier
+LEXEME -> z
+-------------------
+<Statement> -> <Compound> | <Assign> | <If> | <Return> | <Print> | <Scan> | <While>
+<Assign> -> <Identifier> = <Expression>
+
+TOKEN -> Operator
+LEXEME -> =
+-------------------
+
+TOKEN -> Identifier
+LEXEME -> c
+-------------------
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> ->  <Primary>
+<Primary> -> <Identifier>
+
+TOKEN -> Operator
+LEXEME -> +
+-------------------
+<Expression Prime> + <Term> <Expression Prime>
+
+TOKEN -> Identifier
+LEXEME -> d
+-------------------
+<Term> -> <Factor> <Term Prime>
+<Factor> ->  <Primary>
+<Primary> -> <Identifier>
+
+TOKEN -> Separator
+LEXEME -> ;
+-------------------
+<Expression Prime> -> <Empty>
+<Empty> -> Epsilon
+
+TOKEN -> Identifier
+LEXEME -> a
+-------------------
+<Statement> -> <Compound> | <Assign> | <If> | <Return> | <Print> | <Scan> | <While>
+<Assign> -> <Identifier> = <Expression>
+
+TOKEN -> Operator
+LEXEME -> =
+-------------------
+
+TOKEN -> Identifier
+LEXEME -> e
+-------------------
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> ->  <Primary>
+<Primary> -> <Identifier>
+
+TOKEN -> Operator
+LEXEME -> -
+-------------------
+<Expression Prime> - <Term> <Expression Prime>
+
+TOKEN -> Identifier
+LEXEME -> f
+-------------------
+<Term> -> <Factor> <Term Prime>
+<Factor> ->  <Primary>
+<Primary> -> <Identifier>
+
+TOKEN -> Separator
+LEXEME -> ;
+-------------------
+<Expression Prime> -> <Empty>
+<Empty> -> Epsilon
+
+TOKEN -> Identifier
+LEXEME -> b
+-------------------
+<Statement> -> <Compound> | <Assign> | <If> | <Return> | <Print> | <Scan> | <While>
+<Assign> -> <Identifier> = <Expression>
+
+TOKEN -> Operator
+LEXEME -> =
+-------------------
+
+TOKEN -> Identifier
+LEXEME -> g
+-------------------
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> ->  <Primary>
+<Primary> -> <Identifier>
+
+TOKEN -> Operator
+LEXEME -> *
+-------------------
+<Term Prime -> * <Term> <Term Prime>
+
+TOKEN -> Identifier
+LEXEME -> n
+-------------------
+<Term> -> <Factor> <Term Prime>
+<Factor> ->  <Primary>
+<Primary> -> <Identifier>
+
+TOKEN -> Separator
+LEXEME -> ;
+-------------------
+<Expression Prime> -> <Empty>
+<Empty> -> Epsilon

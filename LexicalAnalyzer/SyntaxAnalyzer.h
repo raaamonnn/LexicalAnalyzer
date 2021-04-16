@@ -3,6 +3,26 @@
 #include "common.h"
 using namespace std;
 
+/*class SyntaxAnalyzer
+*	private:
+*		typedef string Token: to make a string more readable
+*		typedef string Lexeme: to make a string more readable
+*
+*		synInput: A vector that holds a pair of Token, Lexeme
+*		pairInput: the Input from the lexical analyzer (pair)
+*		outputtxt: a string that holds outputs that will be printed
+*
+*	private method:
+*		GetToken: Gets the current Token
+*		GetLexeme: Gets the current Lexeme
+*		PeekLexeme: Gets the next Lexeme
+*		NextInput: Gets the next Input(token,lexeme)
+*		PrintLexerResult: Prints current Token, Lexeme being analyzed
+*		[The rest of methods are commented within the class for better clarification]
+*
+*	public method:
+*		Constructor: sets the value of synInput, which is what gets analyzed
+*/
 class SyntaxAnalyzer {
 private:
 	typedef string Token;
@@ -21,8 +41,12 @@ private:
 		return pairInput.second;
 	}
 
-	Lexeme PeekLexeme() {
-		return synInput.front().second;
+	Lexeme PeekLexeme() 
+	{
+		if (!synInput.empty()) {
+			return synInput.front().second;
+		}
+		return " ";
 	}
 
 	void NextInput() {
@@ -42,14 +66,16 @@ private:
 	}
 
 	bool Expression() {
-		PrintLexerResult();
-		Log("<Expression> -> <Term> <Expression Prime>\n");
-		if (Term()) {
-			if (ExpressionPrime()) {
-				return true;
-			}
-			else {
-				Log("ERROR Expected -> EXPRESSION PRIME\n");
+		if (GetToken() == "Identifier" && PeekLexeme() != " ") {
+			PrintLexerResult();
+			Log("<Expression> -> <Term> <Expression Prime>\n");
+			if (Term()) {
+				if (ExpressionPrime()) {
+					return true;
+				}
+				else {
+					Log("ERROR Expected -> EXPRESSION PRIME\n");
+				}
 			}
 		}
 		return false;
@@ -280,15 +306,15 @@ private:
 	}
 
 	bool Assign() {
-		if (GetToken() == "Identifier") { 
+		if (GetToken() == "Identifier" && PeekLexeme() == "=") { 
 			PrintLexerResult();
 			Log("<Statement> -> <Compound> | <Assign> | <If> | <Return> | <Print> | <Scan> | <While>\n");
 			Log("<Assign> -> <Identifier> = <Expression>\n");
 			
 			NextInput();
-			if (GetLexeme() == "=") {
-				PrintLexerResult();
-				NextInput();
+			PrintLexerResult();
+			NextInput();
+			
 				if (Expression()) {
 					if (GetLexeme() == ";") {
 						PrintLexerResult();
@@ -306,11 +332,6 @@ private:
 					Log("ERROR Expected -> EXPRESSION\n");
 					return false;
 				}
-			}
-			else {
-				Log("ERROR Expected -> =\n");
-				return false;
-			}
 		}
 
 		return false;
@@ -327,6 +348,7 @@ private:
 				PrintLexerResult();
 				myfile << "<ID> -> " << GetLexeme() << endl;
 				cout << "<ID> -> " << GetLexeme() << endl;
+				NextInput();
 				return true;
 			}
 			return false;
@@ -345,9 +367,9 @@ private:
 	bool If() {
 
 		if (GetLexeme() == "if") {
+			PrintLexerResult();
 			Log("<Statement> -> <If>\n");
 			Log("<If> -> if  ( <Condition>  ) <Statement>   endif |\nif  ( <Condition>  ) <Statement>   else  <Statement>  endif\n");
-			PrintLexerResult();
 			NextInput();
 			if (GetLexeme() == "(") {
 				PrintLexerResult();
@@ -486,6 +508,18 @@ private:
 				if (Expression()) {
 					return true;
 				}
+				else if(GetToken() == "Integer" || GetToken() == "Real"){
+					PrintLexerResult();
+					Log("<Expression> -> <Term> <Expression Prime> \n");
+					Log("<Term> -> <Factor> <Term Prime> \n");
+					Log("<Factor> ->  <Primary> \n");
+					Log("<Primary> -> <");
+					cout << GetToken();
+					myfile << GetToken();
+					Log("> \n");
+					NextInput();
+					return true;
+				}
 				else {
 					Log("ERROR Expected -> EXPRESSION\n");
 					return false;
@@ -514,16 +548,17 @@ private:
 		if (Assign()) {
 			return true;
 		}
-
 		if (Declaration()) {
 			return true;
 		}
-
 		if (If()) {
 			return true;
 		}
 
 		if (While()) {
+			return true;
+		}
+		if (Expression()) {
 			return true;
 		}
 
